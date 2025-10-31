@@ -22,6 +22,14 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 //Create an instance; passing `true` enables exceptions
+$external_env = __DIR__ . '/../config/env.php';
+// If you want to keep credentials out of the webroot, place a PHP file at the path above
+// that calls putenv('SMTP_USER=...'); putenv('SMTP_PASS=...'); etc. This file is not
+// tracked by the repository and should live outside `public_html`.
+if (file_exists($external_env)) {
+    require_once $external_env;
+}
+
 $mail = new PHPMailer(true);
 
 // Helper: read payload (JSON preferred)
